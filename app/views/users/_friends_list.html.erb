@@ -1,0 +1,49 @@
+
+<div class="content_bottom">
+  <div class="container">
+    <div class="box1">
+       <%if @users.length==0 && params.has_key?(:q)%>
+    	   <h4>No users available</h4>
+       <%end%>
+       <div class="my-friend-list">
+       <div class="row">
+       <% @users.each_with_index do |user,counter| %>
+        <div class="col-md-4">
+          <div class="well">
+                <div class="media">
+                    <a class="thumbnail pull-left" href="#">
+                      <%=image_tag(user.image_path, :class=>"img-responsive", :alt=>"")%>
+                    </a>
+                    <div class="media-body">
+                        <h5 class="media-heading"><a href="<%=view_user_path(user)%>"><%=user.full_name(false)%>
+                      </a></h5>
+                    <p class="run-text"><%=user.user_friends.find_all{|item| item.is_accepted==true}.length%> friend</p>
+                        <p>
+                            <button class="btn btn-xs btn-primary btnRequest_<%=user.id%>" onclick="fnSendFriendRequest(<%=user.id%>)">
+                              <i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp; Send Friend Request
+                            </button>
+                            <button class="btn btn-xs btn-default btnRequest_<%=user.id%>" style="display:none;">
+                               Request Sent
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+          </div>
+         <!-- <div class="col-md-3 wow fadeInLeft" data-wow-delay="0.4s">
+          <div class="grid_4">
+            <a href="#">
+              <h4><span class="m_3"><a href="<%=view_user_path(user)%>"><%=user.full_name%></a></span></h4>
+              <%=image_tag(user.image_path, :class=>"img-responsive", :alt=>"", :width=>"150px;", :height=>"100 px;")%>
+              <a href="#" class="btn1 btn4 btn-1 btn1-1b" onclick="fnSendFriendRequest(<%=user.id%>)">Let's Be Friends</a>
+            </a> 
+          </div>
+        </div>  -->
+      <%end%>
+      </div>
+    </div>
+      <div class="clearfix"> </div>
+    </div>
+    <div class='clearfix'> </div>
+  </div>
+</div>

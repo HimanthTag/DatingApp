@@ -1,0 +1,28 @@
+
+<%= form_for(@user_message) do |f| %>
+  <% if @user_message.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user_message.errors.count, "error") %> prohibited this user_message from being saved:</h2>
+
+      <ul>
+      <% @user_message.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+   <%= f.hidden_field :user_id, value:current_user.id %>
+   <%= f.hidden_field :receiver_id, value:params[:uid] %>
+  <div class="field">
+    <%= f.label :message %><br />
+    <%= f.text_field :message, required: true %>
+  </div>
+  <div class="field">
+    <%= f.label :is_deleted %><br />
+    <%= f.check_box :is_deleted %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

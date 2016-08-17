@@ -1,0 +1,16 @@
+<div class="single_request">
+	<div class="requests-image">
+		<%=image_tag(target_user.image_path, :class=>"img-responsive", :alt=>"")%>
+	</div>
+	<div class="req-name">
+		<a href="<%=view_user_path(target_user)%>"><h4><%=target_user.full_name%></h4></a>		
+	</div>
+	<div class="request-icons">
+		<%unless target_user.team_icon.nil?%><a href="javascript:;"><%=image_tag(target_user.team_icon, :title => target_user.team_name)%></a><%end%>
+		<%unless target_user.relationship_interest_icon.nil?%><a href="javascript:;"><%=image_tag(target_user.relationship_interest_icon, :title => target_user.relationship_interest.name)%></a><%end%>
+	</div>
+	<div class="request-status">
+		<a href="javascript:;" title="Accept request"><div class="green-circle" onclick="fnUpdateFriendRequestStatus(<%=request.id%>,1)"></div></a>
+		<a href="javascript:;" title="Reject request"><div class="red-circle" onclick="fnUpdateFriendRequestStatus(<%=request.id%>,0)"></div></a>
+	</div>
+</div>

@@ -1,0 +1,32 @@
+<%if accepted_friends.length==0%>
+	<h4 class="m_4">No friends added yet.</h4>
+	<br/>
+	<a href="<%=users_list_path%>" class="btn1 btn4 btn-1 btn1-1b">Add Now</a>
+<%else%>
+<div class="msg-title">    
+    <%if check_current_profile_id.to_i==current_user.id%>
+		<h4>Friends (<%=UserFriend.total_friends_count(check_current_profile_id)%>)</h4>
+	<%else%>
+		<h4>Friends (<%=UserFriend.total_friends_count(check_current_profile_id)%>)</h4
+	<%end%> 
+</div>
+<div class="msg-body">
+    <ul class="people has-nicescroll">
+    	<% accepted_friends.each_with_index do |my_friend,counter| %>	
+			<%target_user = my_friend.user%>
+	        <li class="person" data-chat="person1" onclick="window.location.href='<%=message_conversation_user_message_path(current_user)%>?uid=<%= target_user.id%>'" id="<%=my_friend.id%>">
+	            <!-- <img src="images/msg-pic/img_1.jpg" alt=""> -->
+	            <!-- <a class="thumbnail pull-left" href="<%=message_conversation_user_message_path(current_user)%>?uid=<%= target_user.id%>" id="<%=my_friend.id%>">
+	                    	<%=image_tag(target_user.image_path,  :alt=>"")%>
+	             </a> -->
+	             <%=image_tag(target_user.image_path,  :alt=>"")%>
+	            <span class="name"><%=target_user.full_name%></span>
+	            <i class="time">1 hour ago</i>
+	        </li>
+    	<%end%>
+    </ul>
+</div>
+<%end%>
+
+
+

@@ -1,0 +1,53 @@
+<div class="profile_banner">
+  <div class="container"> 
+    <div class="row">
+      <div class="col-md-5">
+          <h2 class="section-title">Just make some new friends</h2>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>
+          <a href="<%=user_friends_path%>" class="btn btn-raised btn-bordered">MY POKES</a>
+      </div>
+      <div class="col-md-7">
+        <div class="pro-search-box">
+          <%= search_form_for @q, url: users_list_path,
+                        html: { method: :get } do |f| %>
+            <div class="row">
+              <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="form-group">                  
+                  <%= f.select :gender_id_eq, options_for_select( Gender.order(:name).map{ |c| [c.name, c.id] }, params[:q].present? && params[:q]["gender_id_eq"] ? params[:q]["gender_id_eq"] : []), {:include_blank => 'I am seeking'}, { :class => 'selectDropdown form-control'} %>
+                </div>
+              </div>
+               <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="form-group">
+                  <%= f.select :relationship_interest_id_eq, options_for_select( RelationshipInterest.all.map{ |c| [c.name, c.id] }, params[:q].present? && params[:q]["relationship_interest_id_eq"] ? params[:q]["relationship_interest_id_eq"] : []), {:include_blank => 'For'}, { :class => 'selectDropdown form-control'}  %>
+                </div>                
+              </div>
+              <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="form-group">
+                  <%= f.select :age_cont, options_for_select(age_group, params[:q].present? && params[:q]["age_cont"] ? params[:q]["age_cont"] : []), {:include_blank => 'Age Group'}, { :class => 'selectDropdown form-control'}%>
+                </div>
+              </div>             
+              <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="form-group">
+                  <%= f.search_field :city_cont, class: 'form-control', :placeholder=>"City" %>
+                </div>              
+              </div>
+              <div class="col-md-4 col-sm-4 col-xs-6">
+                <div class="form-group">
+                  <%= f.select :state_id_eq, options_for_select( State.order(:name).map{ |c| [c.name, c.id] }, params[:q].present? && params[:q]["state_id_eq"] ? params[:q]["state_id_eq"] : []), {:include_blank => 'Any State'}, { :class => 'selectDropdown form-control'}  %>
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-4 col-xs-6">              
+                  <div class="form-group label-floating">         
+                    <%= f.text_field :zip_code_eq, class: 'form-control', :placeholder=>"Zip Code", :maxLength=>"5", :onkeypress=>'return event.charCode >= 48 && event.charCode <= 57' %>
+                  </div>              
+              </div>
+            </div>
+            <div class="text-center">
+            <%= f.submit "Search", :class=>"btn btn-raised btn-bordered btn-blue" %>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

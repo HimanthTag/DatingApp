@@ -1,0 +1,54 @@
+<div class="page-title">
+  <div class="container"> 
+    <div class="row">
+      <div class="col-md-12">
+          <h2>CHANGE PASSWORD</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="friends-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="profile-edit change-password">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: "update_password_form" }) do |f| %>
+             <%= devise_error_messages! %>
+
+                <div class="form-group label-floating">
+                  <label for="currentPassword" class="control-label">Current Password*</label>
+                  <%= f.password_field :current_password, class: "form-control", required: true, autocomplete: "off", :id=>"currentPassword" %>
+                </div>
+
+                <div class="form-group label-floating">
+                  <label for="newPassword" class="control-label">New Password*</label>
+                  <%= f.password_field :password, class: "form-control required pass", :content => "Must be at least 6 characters long, and contain at least one number, one uppercase and one lowercase letter.", :minlength => 8, :mypassword => true, required: true, autocomplete: "off", :id=>"newPassword" %>
+                </div>
+
+                <div class="form-group label-floating">
+                  <label for="confPassword" class="control-label">New Confirmation Password*</label>
+                   <%= f.password_field :password_confirmation, class: "form-control", :equalTo => "#newPassword", required: true, autocomplete: "off", :id=>"confPassword" %>
+                </div>
+
+              <div class="text-center">
+                <button class="btn btn-raised btn-bordered btn-blue" onclick = "$('#update_password_form').submit()">Update</button>
+                <button class="btn btn-raised btn-bordered btn-yellow" onclick = "history.back()">Back</button>
+              </div>
+
+          <%end%>
+        </div>
+      </div>
+   </div>
+  </div>
+ </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#update_password_form").validate();
+})
+</script>
+<!-- <h3>Cancel my account</h3>
+
+<p>Unhappy? <%#= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p> -->
+
+<%#= link_to "Back", :back %>

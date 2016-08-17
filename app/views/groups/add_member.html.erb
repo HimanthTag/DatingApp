@@ -1,0 +1,20 @@
+<div id="divUsersList">
+  <%= render :partial => "friends_list", :locals=>{:my_friends=>@my_friends, :group=>@group} %>
+</div>
+<script>
+function addToGroup(friend_id,group_id){   
+  var ajax_data = {
+    "friend_id":friend_id,
+    "group_id":group_id,
+  };
+  $.ajax({
+    url: "<%= add_member_to_group_group_path %>",
+    format: "json",
+    data: ajax_data,
+    success: function(response){      
+      $("#divUsersList").html(response);
+    }
+  });
+}
+
+</script>

@@ -1,0 +1,42 @@
+
+<%= render :partial => 'banner' %>
+
+<%#= render :partial => 'looking_for_someone' %>
+
+<div id="divFriends">
+  <%= render :partial => 'my_friends' %>
+</div>
+
+<%#= render :partial => 'love_story' %>
+
+<%#= render :partial => 'app_download' %>
+
+  
+<script>
+// function fnUpdateFriendRequestStatus(friend_request_id,acceptance_status){
+//   var ajax_data = {
+//     "id":friend_request_id,
+//     "acceptance_status":acceptance_status
+//   };
+//   $.ajax({
+//     url: "<%= accept_friend_path %>",
+//     format: "json",
+//     data: ajax_data,
+//     success: function(response){
+//       $("#divFriends").html(response);
+//     }
+//   });
+// }
+
+function fnGoToUsersList(){
+  window.location.href="<%=users_list_path%>";
+}
+
+function fnGoToMyPokes(){
+  window.location.href="<%=user_messages_path%>";
+}
+
+function fnGoToMyGroups(){
+ // window.location.href="<%#=groups_path%>";
+}
+</script>

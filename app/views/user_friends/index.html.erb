@@ -1,0 +1,17 @@
+<div class="page-title">
+  <div class="container"> 
+    <div class="row">
+      <div class="col-md-12">
+          <h2>My Pokes (<%=UserFriend.total_friends_count(current_user.id)%>)</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+    <div class="container">
+    	<div class="row">
+    		<br/><br/>
+		    <%= render :partial => "landing/accepted_friends", :locals =>{:accepted_friends => @user_friends, :custom_class => "col-md-12", :custom_class1 => "4",:custom_class2 => "6", :check_current_profile_id => current_user.id, :dont_check_if_friend => true, :index_page=>true} %>
+		</div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<h1>Listing group_messages</h1>
+
+<table>
+  <tr>
+    <th>Group user</th>
+    <th>Message</th>
+    <th>Is deleted</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @group_messages.each do |group_message| %>
+  <tr>
+    <td><%= group_message.group_user_id %></td>
+    <td><%= group_message.message %></td>
+    <td><%= group_message.is_deleted %></td>
+    <td><%= link_to 'Show', group_message %></td>
+    <td><%= link_to 'Edit', edit_group_message_path(group_message) %></td>
+    <td><%= link_to 'Destroy', group_message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Group message', new_group_message_path %>

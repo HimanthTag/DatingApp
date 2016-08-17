@@ -1,0 +1,21 @@
+<%if @is_friend.nil?%>  
+   <a href="javascript:;">
+        <button class="btn btn-sendRequest btn-raised btnRequest_<%=@user.id%>" onclick="fnSendFriendRequest(<%=@user.id%>)"><i class="icon"><%=image_tag("/assets/icon_addFriend.png")%></i>Send Request<div class="ripple-container"></div></button>
+    </a>         
+<%elsif @is_friend.is_accepted%>
+   <a href="<%=message_conversation_user_message_path(current_user)%>?uid=<%= @user.id%>">
+     <button class="btn btn-requestSent btn-raised"><i class="icon"><%=image_tag("/assets/mail-icon.png")%></i>Message<div class="ripple-container"></div></button>
+   </a>
+   <a href="javascript:;">
+     <button class="btn btn-rejectSent btn-raised" onclick="fnUnfriend(<%=@user.id%>)"><i class="icon"><%=image_tag("/assets/icon_unfriend.png")%></i>Unfriend<div class="ripple-container"></div></button>
+   </a>
+<%elsif @is_friend.is_accepted.nil? and @is_friend.friend_id==current_user.id%>
+   <a href="javascript:;" onclick="fnUpdateFriendRequestStatus(<%=@is_friend.id%>,1)">
+        <button class="btn btn-requestSent btn-raised"><i class="icon"><%=image_tag("/assets/icon_reqestSend.png")%></i>Approve<div class="ripple-container"></div></button>
+   </a>
+   <a href="javascript:;" onclick="fnUpdateFriendRequestStatus(<%=@is_friend.id%>,0)">
+        <button class="btn btn-rejectSent btn-raised"><i class="icon"><%=image_tag("/assets/icon_rejectSend.png")%></i>Reject<div class="ripple-container"></div></button>
+   </a>
+<%else%>
+   <button class="btn btn-requestSent btn-raised btnRequest_<%=@is_friend.id%>"><i class="icon"><%=image_tag("/assets/icon_reqestSend.png")%></i>Request Sent</button>
+<%end%>

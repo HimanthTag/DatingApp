@@ -1,0 +1,15 @@
+development:
+  facebook:
+    callback_url: "/users/auth/facebook/callback"
+    api_key: "1751179205129913"
+    api_seceret: "188166be3d2090c622134b8931375f5f"
+test:
+  facebook:
+    callback_url: "/users/auth/facebook/callback"
+    api_key: "1751179205129913"
+    api_seceret: "188166be3d2090c622134b8931375f5f"
+production:
+  facebook:
+    callback_url: "/social-dating/users/auth/facebook/callback"
+    api_key: "1729533807316017"
+    api_seceret: "6c3d372687c03ed6aed5de9aeadd44d9"

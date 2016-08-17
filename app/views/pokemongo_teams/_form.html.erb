@@ -1,0 +1,25 @@
+<%= form_for(@pokemongo_team) do |f| %>
+  <% if @pokemongo_team.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pokemongo_team.errors.count, "error") %> prohibited this pokemongo_team from being saved:</h2>
+
+      <ul>
+      <% @pokemongo_team.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :is_deleted %><br />
+    <%= f.check_box :is_deleted %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

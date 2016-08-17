@@ -1,0 +1,2 @@
+module PokemongoTeamsHelper
+end

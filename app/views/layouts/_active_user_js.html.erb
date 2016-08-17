@@ -1,0 +1,38 @@
+<script>
+$(document).ready(function(){	
+	$(".my_profile").on("click",function(){
+		window.location = "<%=view_user_path(current_user.try(:id))%>"
+	});
+	
+	setTimeout(function(){			
+		$(".alert").fadeOut();
+	},7000);
+	$(document).ajaxStart(function(){
+        $("#wait").css("display", "block");
+    });
+    $(document).ajaxComplete(function(){
+    	setTimeout(function(){			
+			$("#wait").css("display", "none");
+		},2000);
+        
+    });
+
+	// $(window).load(function() {
+	//   <%if (@friends_request || []).length > 0%>	  	
+	//   	$("#friendsRequestCount").text("<%=@friends_request.length%>").show();
+	//   	  	$(".rcvd-req").on("click",function(){
+	//   		$('html, body').animate({
+	// 	        scrollTop: $("#divRecentRequests").offset().top
+	// 	    }, 1000);
+	//   	});
+	//   <%end%>
+	// });
+
+
+	$('ul.header_user_info li.dropdown').hover(function() {
+	  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+	}, function() {
+	  $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+	});
+})
+</script>

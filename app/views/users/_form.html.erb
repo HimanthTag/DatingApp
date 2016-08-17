@@ -1,0 +1,225 @@
+<div class="alert alert-error alert-danger" style="display:<%= @user.errors.any? ? 'block' : 'none'%>"> <!-- <button type="button"
+    class="close" data-dismiss="alert">Close</button> -->
+     <% if @user.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+    <% @user.errors.full_messages.uniq.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+</div>
+
+<div class="page-title">
+  <div class="container"> 
+    <div class="row">
+      <div class="col-md-12">
+          <h2>EDIT PROFILE</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="friends-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="border-title">
+            <h4>PERSONAL INFORMATION</h4>
+          </div>
+        <div class="profile-edit">
+          <%= form_for(@user, url: user_path(@user), :method=>:put, multiple: true,:html => {:id => "editProfileForm"}) do |f| %>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group label-floating">
+                  <label for="user_first_name" class="control-label">First Name*</label>
+                  <%= f.text_field :first_name, class: 'form-control', required: true%>
+                </div>
+              </div>
+             <!--  <div class="col-md-6">
+                  <div class="form-group label-floating">
+                      <label for="user_middle_name" class="control-label">Middle Name</label>
+                      <%= f.text_field :middle_name, class: 'form-control'%>
+                  </div>
+              </div> -->
+              <div class="col-md-6">
+                <div class="form-group label-floating">
+                      <label for="user_last_name" class="control-label">Last Name*</label>
+                      <%= f.text_field :last_name, class: 'form-control', required: true%>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="form-group label-floating">
+                      <label for="user_email" class="control-label">Email Address*</label>
+                      <%= f.email_field :email, class: 'form-control', required: true%>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group label-floating">
+                      <label for="dob" class="control-label">Date of birth*</label>
+                      <%#= f.date_select(:dob, :order => [:month, :day, :year], :end_year=>1950, :start_year=>Date.today.year-15, :prompt => { :day => 'Day', :month => 'Month', :year => 'Year' }, :class_name=>"selectDropdown form-control")%>
+                      <%= f.text_field :dob, class: 'form-control datePicker', :id => "dob",  required: true, :readonly => true, :value=>f.object.dob.present? ? f.object.dob.strftime("%m-%d-%Y") : ""%>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group label-floating">  
+                  <label for="user_gender_id" class="control-label static-label">Gender*</label>
+                    <%= f.select :gender_id, options_for_select( Gender.all.map{ |c| [c.name, c.id] }, f.object.gender_id.present? ? f.object.gender_id : []), {:include_blank => 'Select Gender'}, { :class => 'selectDropdown form-control', required: true} %>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group label-floating">
+                      <label for="user_city" class="control-label">City Name*</label>
+                      <%= f.text_field :city, class: 'form-control', required: true%>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group label-floating">
+                  <label for="user_state_id" class="control-label static-label">Select Your State*</label>
+                  <%= f.select :state_id, options_for_select( State.order(:name).map{ |c| [c.name, c.id] }, f.object.state_id.present? ? f.object.state_id : []), {:include_blank => 'Select Your State'}, { :class => 'selectDropdown form-control', required: true} %>
+                </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group label-floating">
+                      <label for="user_zip_code" class="control-label">Zip Code*</label>
+                      <%= f.text_field :zip_code, class: 'form-control', required: true,min: 1, oninput: "validity.valid||(value='');", :maxLength=>"5", :pattern=>"[0-9.]+" %>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group label-floating">
+                  <label for="user_ethnicity_id" class="control-label static-label">Select Ethnicity</label>
+                  <%= f.select :ethnicity_id, options_for_select( Ethnicity.order(:name).map{ |c| [c.name, c.id] }, f.object.ethnicity_id.present? ? f.object.ethnicity_id : []), {:include_blank => 'Select Ethnicity'}, { :class => 'selectDropdown form-control'} %>
+                </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group label-floating">
+                      <label for="user_pokemongo_team_id" class="control-label static-label">Select Your Team</label>
+                      <%= f.select :pokemongo_team_id, options_for_select( PokemongoTeam.order(:name).map{ |c| [c.name, c.id] }, f.object.pokemongo_team_id.present? ? f.object.pokemongo_team_id : []), {:include_blank => 'Select Your Team'}, { :class => 'selectDropdown form-control'} %>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group label-floating">
+                      <label for="user_favorite_pokemon" class="control-label">Favourite Pokemon</label>
+                      <%= f.text_field :favorite_pokemon, class: 'form-control'%>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group label-floating">
+                      <label for="user_relationship_interest_id" class="control-label static-label">I am Seeking*</label>
+                      <%= f.select :relationship_interest_id, options_for_select( RelationshipInterest.all.map{ |c| [c.name, c.id] }, f.object.relationship_interest_id.present? ? f.object.relationship_interest_id : []), {:include_blank => 'I am Seeking'}, { :class => 'selectDropdown form-control', required: true, :id =>"user_relationship_interest_id"} %>
+                  </div>
+              </div>
+              <!-- <div class="col-md-3">
+                <div class="form-group label-floating">
+                      <label for="user_height_feet" class="control-label static-label">Select Feet</label>
+                      <%#= f.select :height_feet, options_for_select((4..8).to_a, f.object.height_feet.present? ? f.object.height_feet : []), {:include_blank => 'Select Feet'}, { :class => 'selectDropdown form-control'} %>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group label-floating">
+                      <label for="user_height_inch" class="control-label static-label">Select Inch</label>
+                      <%#= f.select :height_inch, options_for_select((0..11).to_a, f.object.height_inch.present? ? f.object.height_inch : []), {:include_blank => 'Select Inch'}, { :class => 'selectDropdown form-control'} %>
+                  </div>
+              </div> -->
+              <div class="col-md-6">
+                <div class="form-group label-floating">
+                      <label for="user_height_inch" class="control-label static-label">My Body Type</label>
+                      <%= f.select :body_type, options_for_select(my_body_type, f.object.body_type.present? ? f.object.body_type : []), {:include_blank => 'Select Body Type'}, { :class => 'selectDropdown form-control'} %>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group label-floating">
+                      <label for="user_height_feet" class="control-label static-label">My Height</label>
+                      <%= f.select :height_feet, options_for_select(my_height, f.object.height_feet.present? ? f.object.height_feet : []), {:include_blank => 'Select Height'}, { :class => 'selectDropdown form-control'} %>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group label-floating textarea-group">
+                      <label for="user_hobbies" class="control-label">My Hobbies</label>
+                      <%= f.text_area :hobbies, class: 'form-control', :rows=>3, :resize => "none"%>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group label-floating textarea-group">
+                      <label for="user_about_me" class="control-label">Short Bio</label>
+                      <%= f.text_area :about_me, class: 'form-control', :rows=>3, :resize => "none", :maxLength=>"300"%>
+                  </div>
+              </div>  
+              
+            </div>            
+              <%= f.submit @user.sign_in_count < 2 ? "Update and let's find your pokes" : "Update", :class=> "btn btn-raised btn-bordered btn-blue" %>
+            </div>
+          
+        </div>
+
+        <div class="col-md-4">
+          <div class="border-title">
+            <h4>PROFILE IMAGE</h4>
+            <div class="my-images">
+              <div class="col-md-12">
+                <div class="row">
+                <%user = @user%>
+                  <%if user.attachments.present?%>
+                    <%user.attachments.each do |attachment|%>
+                      <%class_name = (attachment.id == user.try(:user_profile_picture).try(:attachment_id)) ? "pp-profile-final" : ""%>
+                      <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="my-images-holder <%=class_name%>">                    
+                          <%= link_to(image_tag(attachment.try(:attachment), :class=>"",  :alt => "Uploaded Images", :title => "Make as Profile Picture"), make_profile_picture_path(:id=>user.id, :attachment_id=>attachment.id), :class=>"pro-pic") %>
+                          <%=link_to delete_image_path(:id=>user.id, :attachment_id=>attachment.id), :class=>"delete-myimage", data: { confirm: 'Are you sure you want to delete?' } do%>
+                          <%end%>
+                        </div>
+                      </div>
+                    <%end%>
+                  <%else%>
+                    No Images Uploaded
+                  <%end%>
+                </div>
+              </div>
+              <div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <%if f.object.attachments.count<3%>
+            <%= f.fields_for :attachment do |attachment_f| %>
+              <%= attachment_f.file_field :attachment, :multiple => true, :name => "attachments[user][]" %>
+            <% end %>
+          <% end %>
+        </div>
+        <%end%>
+      </div>
+    </div>    
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  <%unless @user.dob.nil?%>
+    var d = new Date("<%=@user.dob%>");
+    d.setMonth( d.getMonth() );
+    $('.datePicker').datepicker("setDate", d);
+  <%end%>
+
+    $(".profile-edit form").validate({
+        ignore: [],
+        rules: {
+            select: {
+                required: true
+            },
+            dob: {
+                required: true
+            }
+        },
+        messages: {
+            select: {
+                required: "Value required"
+            }
+        },
+        errorPlacement: function(error, element) {
+            if (element.is('select:hidden')) {
+                error.insertAfter(element.next('.dropdownjs'));
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });  
+})
+</script>

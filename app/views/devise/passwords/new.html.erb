@@ -1,0 +1,27 @@
+<div class="profile_banner">
+  <div class="container"> 
+     <h3>Forgot your password?</h3>
+  </div>
+</div>
+<div class="content_top">
+  <div class="container">
+<div class="text-center">
+<div class="forgot-password-section">
+	<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, id: "forgot_password_form" }) do |f| %>
+  <%= devise_error_messages! %>
+    <div class="field text-left">
+      <!-- <%= f.label :email %><br /> -->
+      <div>Email Address<label>*</label></div>
+      <%= f.email_field :email, class: "form-control", autofocus: true, required: true %>
+    </div>
+
+    <div class="actions">
+      <%#= f.submit "Send me reset password instructions", class: "acount-btn" %>
+      <%= link_to "Reset Password", "#", class: "acount-btn", :onclick => "$('#forgot_password_form').submit()" %>
+    </div>
+</div>
+<% end %>
+ </div>
+ </div>
+</div>
+<%#= render "users/shared/links" %>

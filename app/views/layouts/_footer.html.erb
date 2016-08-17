@@ -1,0 +1,21 @@
+<%if user_signed_in?%>
+<!-- <div class="footer">
+	<div class="container">
+	    <div class="copy">
+	    	<p>© 2015 - 2016  <a href="<%=privacy_landing_index_path%>" target="_blank">PokemonGo Mingle</a>  All Rights Reserved.  <a href="<%=privacy_landing_index_path%>" target="_blank" class="privacy-policies"> Legal and Privacy Policies</a></p>
+		</div>		
+	    <div class='clearfix'> </div>
+	</div>
+</div> -->
+<% else %>
+<div class="container footer-text">
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="text-right copy">
+    		<!-- ©  2015 - 2016  TechAffinity  All Rights Reserved. Legal and Privacy Policies	 -->
+            <p>By Logging In, you agree to our <a href="#">Term of Use</a> and <a href="#">Electronic Records</a> terms and consent to our <a href="#">Privacy Policy.</a></p>
+    		</div>
+    	</div>
+    </div>
+</div>
+<% end %>

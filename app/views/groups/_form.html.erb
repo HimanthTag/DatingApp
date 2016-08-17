@@ -1,0 +1,39 @@
+<div class="profile_banner">
+  <div class="container"> 
+     <h3>Add New Group</h3>
+  </div>
+</div>
+<div class='profiles'>
+  <div class="container">
+    <div class="account_grid">
+       <div class="col-md-6 login-right">
+          <h3>New Group</h3>
+        <p>Please create a new group and add new members to collaborate.</p>
+        <%= form_for(@group) do |f| %>
+        <% if @group.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+            <ul>
+            <% @group.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+          <div>
+          <span>Group Name<label>*</label></span>
+          <%= f.text_field :name, autofocus: true, :class=>"form-control", :required=> "true" %>
+          </div>
+          <div>
+          <span>Description<label>*</label></span>
+          <%= f.text_field :description, autofocus: true, :class=>"form-control", :required=> "true" %>
+          </div>
+          <%= f.submit "Submit", :class=>"btn btn-primary" %>
+          <%= link_to 'Back', groups_path , :class=>"btn btn-primary" %>
+          <% end %>
+          
+       </div> 
+       <div class="clearfix"> </div>
+     </div>
+  </div>
+</div>

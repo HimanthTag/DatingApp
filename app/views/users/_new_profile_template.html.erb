@@ -1,0 +1,92 @@
+
+<div class="friends-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8">
+
+				<div class="profile-view">
+
+					<div class="row">
+						<div class="col-md-4 col-sm-4 col-xs-4">
+							<div class="profile-gallery">
+								<div class="profile-carousel">
+									<%if @user.attachments.length==0%>
+							  			<div class="profile-holder">
+										  	<%=image_tag(@user.image_path, :class=>"img-responsive", :alt=>"")%>
+										</div>
+							  		<%else%>
+									  	<%@user.attachments.each do |attachment|%>
+										  <div class="profile-holder">
+										  	<%=image_tag(User.attachment_path(attachment.try(:attachment)), :class=>"img-responsive", :alt=>"")%>
+										  </div>
+										<%end%>
+									<%end%>
+								</div>					
+								<div style="cursor: <%= @user.id==current_user.id ? 'default' : 'pointer'%>" class="favorite-likes" title="Like this profile" onclick="fnLikeProfile(<%=@user.id%>)">
+									<span id="profileLikes"><%=@profile_likes%></span>
+								</div>
+							</div>
+							<div class="profile-name">								
+								<h4><%=@user.full_name(@is_friend.try(:is_accepted) || current_user.id==@user.id)%></h4>
+								<p><%=@user.team_name%></p>
+							</div>
+							<%if @user.id!=current_user.id%>
+								<div id="divFriendshipStatus" class="friend-status">
+									<%= render :partial => "friend_request_status"%>
+								</div>
+							<%end%>
+						</div>
+						<div class="col-md-8 col-sm-8 col-xs-8">
+							<div class="profile-details">
+								<h4>Short Bio <%if current_user.id==@user.id%><span><a href="<%=edit_user_path(@user)%>"></a></span><%end%></h4>
+								<p><%=@user.about_me%></p>
+								<hr>
+								<div class="table-responsive table-profile">
+									<table class="table borderless">
+										<tr>
+											<td width="25%"><b>Gender</b></td>
+											<td width="75%"><%=@user.gender.name || "-"%></td>
+										</tr>
+										<%if @is_friend.try(:is_accepted) || @user.user_setting.age_with_public || @user.id==current_user.id%>
+											<tr>
+												<td><b>Age</b></td>
+												<td><%=@user.age || "-"%></td>
+											</tr>
+										<%end%>
+										<%if ((@is_friend.try(:is_accepted) && @user.user_setting.height_with_friends) || (@user.id==current_user.id)) && @user.try(:height_feet) && @user.try(:height_inch)%>
+											<tr>
+												<td><b>Height</b></td>
+												<td>
+													<%=@user.height_feet%>
+												</td>
+											</tr>
+										<%end%>
+										<tr>
+											<td><b>City</b></td>
+											<td><%=@user.city || "-"%></td>
+										</tr>
+										<tr>
+											<td><b>State</b></td>
+											<td><%=@user.state.try(:name) || "-"%></td>
+										</tr>		
+										<tr>
+											<td><b>Hobbies</b></td>
+											<td><%=@user.hobbies || "-"%></td>
+										</tr>								
+									</table>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>				
+			</div>
+			<div class="col-md-4">
+		    	<%= render :partial => "user_friends/mutual_friends" %>
+		    	<%if @user.id==current_user.id%>
+		    		<%= render :partial => "user_friends/sent_requests" %>
+		    	<%end%>
+			</div>
+		</div>
+	</div>
+</div>

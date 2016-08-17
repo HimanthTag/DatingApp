@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @pokemongo_team.name %>
+</p>
+
+<p>
+  <b>Is deleted:</b>
+  <%= @pokemongo_team.is_deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_pokemongo_team_path(@pokemongo_team) %> |
+<%= link_to 'Back', pokemongo_teams_path %>

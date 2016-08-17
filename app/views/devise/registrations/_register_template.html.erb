@@ -1,0 +1,80 @@
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="clearRegData"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="registerModalLabel">Register</h4>
+			</div>
+			<div class="modal-body">
+			  <%= form_for(resource, as: resource_name, url: registration_path(resource_name),:html => {:id => "registerForm"}) do |f| %> 
+				    <div class="form-group label-floating">						       
+				       		<label for="firstName" class="control-label">First Name*</label>
+				          	<%= f.text_field :first_name, class: 'form-control',:id => "firstName", :required=> "true" %>
+				    </div>
+				    <div class="form-group label-floating">						       	
+				       		<label for="lastName" class="control-label">Last Name*</label>
+				    		<%= f.text_field :last_name, class: 'form-control', :id => "lastName", :required=> "true" %> 
+				    </div>
+				    <div class="form-group label-floating">						       	
+				       		<label for="emailAddr" class="control-label">Email Address*</label>		
+				    		 <%= f.email_field :email, class: 'form-control', :id =>"emailAddr", :required=> "true", :onchange=>"checkEmail()" %>
+				    		 <span id="emailAddr-availability" class="error" style="display: inline-block;"></span>
+				    		 
+				    </div>
+				    <div class="form-group label-floating">						       	
+				       		<label for="password" class="control-label">Password*</label>
+				    		<%= f.password_field :password, autocomplete: "off", class: 'form-control required pass', :content => "Must be at least 6 characters long, and contain at least one number, one uppercase and one lowercase letter.", :required=> "true", :minLength =>8, :mypassword => true, :id=>"password" %>
+						    <% if @validatable %>
+						      <span class="help-block"><%= @minimum_password_length %> characters minimum</span>
+						    <% end %>
+				    </div>	
+				    <div class="form-group label-floating">						       	
+				       		<label for="cpassword" class="control-label">Confirm Password* </label>
+				    		<%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', :required=> "true", :equalTo =>"#password", :id=>"cpassword"%>
+				    </div>
+
+					<div class="form-group label-floating">
+						<div class="checkbox">
+							<label>
+								<%= f.check_box  :am_over_18,:checked => true,  :value => true, :onclick=>"javascript:return false;", :required => true%>I am over 18 years
+							</label>
+						</div> 
+					</div>
+
+				    <%= f.submit "Signup", :class => "btn btn btn-raised btn-login btn-theme1" %>
+				    <a class="btn btn-lg facebook-login-btn" href="javascript:;" onclick="checkLoginState()">Login using facebook</a>
+				   <!--  <fb:login-button size="large" scope="public_profile,email" onlogin="checkLoginState();">
+					  Signup with Facebook
+					</fb:login-button>   --> 
+				<% end%>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#registerForm").validate();
+    $('#clearRegData').click(function(){
+    	$('#registerForm')[0].reset();
+	});
+
+});
+function checkEmail(){
+	var ajax_data = {
+	    "email_id": $("#emailAddr").val()
+	  };
+	  $.ajax({
+	    url: "<%= check_email_availability_path %>",
+	    format: "json",
+	    data: ajax_data,
+	    success: function(response){
+	    	if(response.status==false){
+	    		$("#emailAddr-availability").html(response.message).show();	    		
+	    	}else{
+	    		$("#emailAddr-availability").hide();
+	    	}
+	    }
+	  });
+}
+</script>

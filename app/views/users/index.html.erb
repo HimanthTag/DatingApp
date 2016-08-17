@@ -1,0 +1,67 @@
+<%= render :partial => 'landing/banner' %>
+  <div class="friends-section">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="border-title">
+                      <%unless @users.length==0%>
+                        <h4>New Pokes</h4>
+                      <%end%>
+                      <div class="friends-listing">
+                        <div class="row scrollHere">
+                          <%= render :partial => "new_friends" %>
+                        </div>
+                      </div>
+                      <div class="text-center mtb20">
+                        <button id="btnLoadMore" class="btn btn-raised btn-bordered btn-yellow" onclick="fnLoadMoreNewFriends()">Load more</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+<script>
+function fnSendFriendRequest(friend_id){  
+  var ajax_data = {
+    "friend_id": friend_id,
+    "list_page": true
+  };
+  $.ajax({
+    url: "<%= add_friend_path %>",
+    format: "json",
+    data: ajax_data,
+    success: function(response){
+      $(".btnRequest_"+friend_id).toggle();      
+    }
+  });
+}
+var offset = 0;
+
+function fnLoadMoreNewFriends(){
+  offset = offset+9; 
+    
+  $.ajax({
+    url: "<%= pending_friends_path %>",
+    format: "json",
+    data: $(".pro-search-box form").serialize() + "&offset="+offset,
+    success: function(response){
+      $(".friends-listing .row").append(response) ;    
+      //Considering there is no more new friends data
+      if(response.length<100){
+        $("#btnLoadMore").html("No More Data").prop('disabled', true);
+        setTimeout(function(){
+          $("#btnLoadMore").hide("slow");
+        },1000);
+      }
+    }
+  });
+}
+$(window).load(function(){
+    <%if params.has_key?(:q)%>
+      $('html, body').animate({
+           scrollTop: $(".scrollHere").offset().top
+       }, 1000);
+  <%end%>
+})
+</script>

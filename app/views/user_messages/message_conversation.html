@@ -1,0 +1,38 @@
+ <div class="page-title">
+  <div class="container"> 
+    <div class="row">
+      <div class="col-md-12">
+          <h2>Chat</h2>
+      </div>
+    </div>
+  </div>
+</div>
+ <div class="profile">
+        <div class="container">
+            <div class="message-container">
+               <div class="msg-aside">
+                    <%= render :partial => "user_messages/friends_list", :locals =>{:accepted_friends => @user_friends,  :check_current_profile_id => current_user.id, :dont_check_if_friend => true} %>
+                    <!-- /.msg-aside-body -->
+                </div>
+                <div class="msg-conversation">
+                    <div class="msg-title">
+                        <h4>Conversation</h4>
+                    </div>
+                    <div class="msg-body">
+                        <div id="user_message_list" class="actionBox">
+                         <%=render :partial => "user_messages/messages", :locals=>{
+              :user_messages => @user_messages, :from_partial=>false}%> 
+                        
+                        <!-- /.write-chat -->
+
+                    </div>
+                    <!-- /.msg-conversation-body -->
+                </div>
+
+            </div>
+            <!-- /.message-container -->
+        </div>
+    </div>
+
+
+<%= subscribe_to message_conversation_user_message_path(@conversation.id) %>

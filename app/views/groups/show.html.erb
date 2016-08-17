@@ -1,0 +1,47 @@
+<div class="profile">
+  <div class="container">
+	  <div class="col-md-8">
+	  	<div class="group-conversation">
+		  	<div class="panel panel-default gc-banner">
+			    <div class="panel-thumbnail">
+			    	<img class="img-responsive" src="http://www.bootply.com/assets/example/bg_5.jpg" />
+			    	<div class="gc-banner-overlay"></div>
+			    </div>
+			    <div class="panel-body">
+			    	<%#= form_for(@group, url: update_group_image_group_path(@group), :method=>:put, multiple: true) do |f| %>
+				    	<div class="gc-profile-pic">
+				            <%= link_to(image_tag(@group.image_path, :alt => "Group image", :width => 100, :height => 100, :class=>"img-responsive")) %>
+				          	<%#= f.fields_for :attachment_attributes do |attachment_f| %>
+			                	<%#= attachment_f.file_field :attachment %>
+			            	<%#end%>
+			            	<%#= f.submit "Upload" %>
+				    	</div> 
+			         	
+			    	<%# end %>
+			    	<div class="gc-profile-name">
+			    		<div class="gc-profile-name-in">
+			    			<h2><strong><%=@group.name%>,</a>&nbsp;<%=@group.try(:description)%></strong></h2>
+			    			<p><%=@group.users.count%> Followers, <%=@group.group_messages.count%> Posts</p>
+			    		</div>
+			    		<!-- <div class="btn-groups">
+			    			<%= link_to edit_group_path(@group) do%>
+			    				<button type="button" class="btn btn-default btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</button>
+			    			<%end%>
+			    			<%= link_to group_path(@group), :method=>:delete, :confirm => "Are you sure you want to delete?" do%>
+			    				<button type="button" class="btn btn-default btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</button>
+			    			<%end%>
+		    			</div> -->
+			    	</div>		      
+			    </div>
+			</div>
+		</div> <!-- /.group-conversation -->
+		<div>
+		<div id="group_posts_id">
+			<%=render :partial => "group_messages/all_group_posts", :locals=>{:group_messages=>@group_messages, :group => @group}%>	
+		</div>
+      	
+      </div>
+	  </div> 
+    <%= render :partial => "groups/group_members", :locals =>{:group => @group, :group_members => @group_users, :custom_class1 => "col-md-12", :custom_class => "col-md-4"} %>
+  </div>
+</div>

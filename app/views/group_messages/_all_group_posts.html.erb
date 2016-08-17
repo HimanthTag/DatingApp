@@ -1,0 +1,104 @@
+<br>
+<div class="well"> 
+	<form onSubmit="return false;" role="form" class="form-horizontal">
+		<h4>What's New</h4>
+		<div style="padding:14px;" class="form-group">
+			<textarea id= "group_status" placeholder="Update your status" class="form-control"></textarea>
+		</div>
+		<button type="button" class="btn btn-primary pull-right" onclick="createGroupPost(<%=group.id%>)"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> &nbsp;Post</button>
+		<!-- <ul class="list-inline">
+			<li><a href="#"><i class="fa fa-camera" aria-hidden="true"></i></a></li>
+			<li><a href="#"><i class="fa fa-smile-o" aria-hidden="true"></i></a></li>
+			<li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a></li>
+		</ul> -->
+	</form>
+</div>
+
+<% group_messages.includes(:user=>[:attachment]).each do |group_message| %>
+	<%is_current_user = (current_user.id == group_message.user.id)%>
+	<div class="panel panel-default gc-posted-list panel-distory">
+		<%if is_current_user%>
+			<%#= link_to 'X', group_message, method: :delete, data: { confirm: 'Are you sure?' }, :class=>"fa fa-times" %>
+			<%=link_to group_message, method: :delete, data: { confirm: 'Are you sure?' } do%>
+				<i class="fa fa-times" aria-hidden="true"></i>
+			<%end%>
+		<%end%>
+		
+		<div class="panel-heading">
+			<div class="gcpl-profile-pic">
+	            <%= image_tag(group_message.user.image_path, :width => 100, :height => 100, :class=>"img-responsive") %>
+			</div>
+			<div class="gcpl-profile-name">
+				<h4><%=is_current_user ? "You have" : "#{group_message.user.first_name} has" %> shared a Post</h4>
+				<p><%=group_message.created_at.in_time_zone("Chennai").strftime("%b %d, %Y at %I:%M%P.")%></p>
+			</div>
+		</div>
+		<div class="panel-body">
+			<%= group_message.message %>
+		</div>
+		<!-- <div class="comment-footer">
+			<button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Like</button>
+			<button type="button" class="btn btn-default btn-xs"><i class="fa fa-comments-o" aria-hidden="true"></i> Comment</button>
+			<button type="button" class="btn btn-default btn-xs"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
+		</div> -->
+		<div class="panel-footer">
+			<div id="group_posts_msg_id_<%=group_message.id%>" class="actionBox">
+				<%=render :partial => "group_messages/all_group_post_cmts", :locals=>{
+					:group => group, :group_message => group_message}%>		        
+		    </div>
+		</div>
+	</div>
+	<!-- /.gc-posted-list -->
+<%end%>
+
+
+<script>
+function createGroupPost(group_id){
+  status = $("#group_status").val();
+  if (status.trim().length != 0)
+  {
+	  var ajax_data = {
+	    "message": status,
+	    "group_id":group_id,
+	  };
+	  $.ajax({
+	    url: "<%= new_group_msg_group_message_path %>",
+	    format: "json",
+	    method: "get",
+	    data: ajax_data,
+	    success: function(response){      
+	      $("#group_posts_id").html(response);
+	    }
+	  });
+	}
+	else
+	{
+		alert("Please enter a Post");
+	}
+}
+
+function createGroupPostComment(group_id,group_message_id){
+  comment = $("#group_message_status_"+group_message_id).val();
+  if (comment.trim().length != 0)
+  {
+  	var ajax_data = {
+	    "comment": $("#group_message_status_"+group_message_id).val(),
+	    "group_id":group_id,
+	    "group_message_id":group_message_id,
+	  };
+	  $.ajax({
+	    url: "<%= new_group_msg_cmt_group_message_path %>",
+	    format: "json",
+	    method: "get",
+	    data: ajax_data,
+	    success: function(response){      
+	      $("#group_posts_msg_id_"+group_message_id).html(response);
+	    }
+	  });
+	}
+	else
+	{
+		alert("Please enter a comment");
+	}
+}
+</script>

@@ -1,0 +1,35 @@
+<li class="list-group-item clearfix">
+  <%= sender_name(conversation).titleize%>: 
+  &nbsp;
+  <%= link_to read_more(conversation.subject, 100), conversation_path(conversation) %> 
+  &nbsp;
+  <small>(<span class="text-muted"><%= conversation.last_message.created_at.strftime("%-d %B %Y, %H:%M:%S") %></span>)</small>
+
+  <div class="pull-right">
+    	<% if conversation.is_trashed?(current_user) %>
+	    	<%= link_to 'Restore', restore_conversation_path(conversation), class: 'btn btn-xs btn-info', method: :post %>
+	  <% else %>    	              
+
+	   		<% if conversation.is_unread?(current_user) %>
+	   			<%if params[:box] && params[:box] != "sent" %>
+	      			<%= link_to '<i class="fa fa-check" aria-hidden="true"></i> '.html_safe, mark_as_read_conversation_path(conversation),
+	                  class: 'btn btn-xs btn-info', method: :post, :title => "Mark as read" %>
+	            <% end %>
+	    <% end %>
+	    <%= link_to '<i class="fa fa-trash-o" aria-hidden="true"></i> '.html_safe, conversation_path(conversation), class: 'btn btn-xs btn-danger', method: :delete, :title => "Move to trash",
+	                data: {confirm: 'Are you sure?'}  %>  
+	  <% end %>
+  </div>
+
+  <p><%#= render 'conversations/participant', conversation: conversation %></p>
+    	<div class="body_of_message">
+	    	<p>
+			     <% if conversation.last_message.body.length > 100 %>	     
+				    <%= read_more(conversation.last_message.body, 100) %>
+				    <%= link_to_function 'Read more', "$(this).parent().html('#{escape_javascript conversation.last_message.body}')" %>
+				 <% else %>
+				    <%= conversation.last_message.body %>
+				 <% end %>
+			</p>
+	    </div>
+</li>

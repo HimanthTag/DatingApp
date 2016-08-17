@@ -1,0 +1,119 @@
+<!-- <div class="header_notification">		
+	<a href="javascript:;" class="dropdown-toggle info-number bell-icon" data-toggle="dropdown" aria-expanded="false">
+		<span class="badge bg-green"></span>
+	</a>
+	<a href="javascript:;" class="rcvd-req dropdown-toggle info-number group-icon" data-toggle="dropdown" aria-expanded="false">
+		<span class="badge bg-green" id="friendsRequestCount" style="display:none;"></span>
+	</a>
+</div> -->
+
+
+<div class="header_notification navbar-nav">
+    <!-- <div class="dropdown notifications-menu">
+        <a href="javascript:;" class="dropdown-toggle info-number bell-icon" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="false">
+            <span class="badge bg-green" id="notificationsCount"></span>
+        </a>
+        <ul class="dropdown-menu stop-propogation menu" aria-labelledby="dropdownMenu2">
+            <li>
+                <a href="#">
+                    <div class="notification-img has-icon">
+                        <img src="images/icon_notif_hand.png" />
+                    </div>
+                    <h4>You & John are in Friendship relation</h4>
+                    <p><i>5 mins ago</i>
+                    </p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="notification-img has-icon">
+                        <img src="images/icon_notif_done.png" />
+                    </div>
+                    <h4>You & John are in Friendship relation</h4>
+                    <p><i>5 mins ago</i>
+                    </p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="notification-img">
+                        <img src="images/friend1.jpg" class="img-circle" alt="User Image">
+                    </div>
+                    <h4>You & John are in Friendship relation</h4>
+                    <p><i>5 mins ago</i>
+                    </p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="notification-img has-icon">
+                        <img src="images/icon_notif_msg.png" />
+                    </div>
+                    <h4>You & John are in Friendship relation</h4>
+                    <p><i>5 mins ago</i>
+                    </p>
+                </a>
+            </li>
+        </ul>
+    </div> -->
+    <div class="dropdown notifications-menu request-notif">
+        <a href="javascript:;" class="rcvd-req dropdown-toggle info-number group-icon" id="dropdownMenu3" data-toggle="dropdown" aria-expanded="false">
+            <%if @friends_request.try(:length) > 0%>
+			<span id="span_pending_req_count" class="badge bg-green"><%=@friends_request.try(:length)%></span>
+            <%end%>
+		</a>
+        <ul class="dropdown-menu stop-propogation menu" aria-labelledby="dropdownMenu3">
+        	<%@friends_request.each do |request|%>
+	        	<li id="notification_request_<%=request.id%>">
+	        		<div class="notification-status">
+	                    <div class="notification-img">
+	                    	<%=image_tag(request.user.image_path, :class=>"img-circle")%>
+	                    </div>	                	
+	                    <h4><a href="<%=view_user_path(request.user)%>"><%=request.user.full_name%></a> sent you request</h4>	
+	                    <p><i>5 mins ago</i></p>
+	        		</div>
+                    <div class="request-status">
+                    	<div href="javascript:;" class="btn-accepted accepted_<%=request.id%>" style="display:none;">Accepted</div>
+						<a href="javascript:;" class="action_<%=request.id%>" title="Accept Request"><div class="green-circle" onclick="fnUpdateFriendRequest(<%=request.id%>,1)"></div></a>
+						<a href="javascript:;" class="action_<%=request.id%>" title="Reject Request"><div class="red-circle" onclick="fnUpdateFriendRequest(<%=request.id%>,0)"></div></a>
+					</div>	                
+	            </li>
+            <%end%>
+        </ul>
+    </div>
+</div>
+<script>
+function fnUpdateFriendRequest(friend_request_id,acceptance_status){
+  
+  var ajax_data = {
+    "id":friend_request_id,
+    "acceptance_status":acceptance_status    
+  };
+  $.ajax({
+    url: "<%= accept_friend_path %>",
+    format: "json",
+    data: ajax_data,
+    success: function(response){
+        if(response.status){
+            //response.pending_count
+            if(response.pending_count>0)
+                $("#span_pending_req_count").html(response.pending_count)
+            else
+                $("#span_pending_req_count").hide()
+        }
+      //$(".request-notif").addClass("open");
+      //$("#divFriends").html(response);
+      $(".action_" + friend_request_id).hide();
+      $(".accepted_" + friend_request_id).show();
+      // $("#notification_request_"+friend_request_id).fadeIn("slow");
+      
+    }
+  });
+}
+$(window).load(function(){
+    $('.stop-propogation *').click(function( e ) {
+         e.stopPropagation();
+    });
+
+})
+</script>

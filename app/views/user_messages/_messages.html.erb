@@ -1,0 +1,64 @@
+<div class="chat-section">
+    <div class="chat active-chat has-nicescroll" data-chat="person1">      
+         <% user_messages.each do |user_message| %>
+            <%user = user_message.user%>
+              <% if user_message.user_id != current_user.id %>
+                <div class="bubble you">
+                    <a class="user" href="javascript:;">
+                        <%= image_tag(user.image_path, :width => 100, :height => 100) %>
+                    </a>
+                    <div class="name">
+                        <h5>
+                          <a href="<%=view_user_path(user)%>"><%=user.full_name(true)%></a>
+                        </h5>
+                    </div>
+                    <div class="person-chat">
+                        <span>
+                           <%=user_message.message%>
+                        </span>
+                    </div>
+                    <div class="date">
+                        <i><%=time_ago_in_words(user_message.created_at.strftime("%b %d, %Y at %I:%M%P."))%> ago</i>
+                    </div>
+                </div>
+             <% else %>
+                <div class="bubble me">
+                    <a class="user" href="javascript:;">
+                        <%= image_tag(user.image_path, :width => 100, :height => 100) %>
+                    </a>
+                    <div class="name">
+                        <h5><a href="<%=view_user_path(user)%>"><%=user.full_name(true)%></a></h5>
+                    </div>
+                    <div class="person-chat">
+                        <span>
+                            <%=user_message.message%>
+                        </span>
+                    </div>
+                    <div class="date">
+                        <i><%=time_ago_in_words(user_message.created_at.strftime("%b %d, %Y at %I:%M%P."))%> ago</i>
+                    </div>
+                </div>
+             <% end %>
+       <% end %> 
+    </div>
+</div>
+
+<!-- /.chat-section -->
+
+
+<%= render 'message_form' %>
+
+<script type="text/javascript">
+  <% publish_to message_conversation_user_message_path(@conversation.id) do %>
+    <% if @user_messages.any? && from_partial%>
+        $(".chat .bubble:last").after("<%= j render :partial => 'user_messages/conversation_message', :locals =>{:user_message => @user_message} %>");
+    <% end %>
+  <% end %>
+  $( document ).ready(function() {
+      if($(".has-nicescroll").length>0){
+            $(".has-nicescroll").niceScroll();
+      }
+    fnScrollBottom();
+
+  });  
+</script>

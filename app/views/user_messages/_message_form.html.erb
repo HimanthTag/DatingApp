@@ -1,0 +1,47 @@
+<div class="write-chat">
+    <div class="form-group label-floating">
+        <label class="control-label"  for="focusedInput1">Post your message</label>
+        <textarea class="form-control" id="focusedInput1" rows="2" id="textArea"></textarea>
+    </div>
+    <button type="submit" class="btn btn btn-raised btn-post btn-theme1" onclick="createUserMessage(<%= current_user.id%>,<%= params[:uid]%>)">POST</button>
+</div>
+
+<script>
+function createUserMessage(user_id,receiver_id){
+  message = $("#focusedInput1").val();
+  if (message.trim().length != 0)
+  {
+    var ajax_data = {"user_message": 
+      {
+      "message": $("#focusedInput1").val(),
+      "user_id":user_id,
+      "receiver_id":receiver_id,
+      }
+    };
+    console.log(ajax_data)
+    $.ajax({
+      url: "<%= new_user_msg_path%>?uid=<%= params[:uid]%>",
+      format: "json",
+      method: "get",
+      data: ajax_data,
+      success: function(response){     
+        $("#user_message_list").html(response);
+        
+      }
+    });
+  }
+  else
+  {
+    alert("Please enter a message");
+  }
+}
+
+function fnScrollBottom(){
+  var d = $('.chat');
+  d.scrollTop(d.prop("scrollHeight"));
+}
+$(document).ready(function(){
+  fnScrollBottom();
+})
+
+</script>

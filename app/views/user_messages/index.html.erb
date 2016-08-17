@@ -1,0 +1,36 @@
+<div class="profile_banner">
+  <div class="container"> 
+     <h3>Message</h3>
+  </div>
+</div>
+<div class="conversation-section">
+  <div class="container">
+    <div class="row">
+      <div class="msg-list clearfix">
+      <div class="col-md-3 bd-r">
+        <div class="msgList-leftCol">
+        <%= render :partial => "user_messages/friends_list", :locals =>{:accepted_friends => @user_friends,  :check_current_profile_id => current_user.id, :dont_check_if_friend => true} %>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="msgList-rightCol">
+        <%unless @receiver.blank? %>
+          <div class="panel gc-posted-list panel-distory">
+            <div class="panel">
+              <%#= group_message.message %>
+              <div id="user_message_list" class="actionBox">
+                <%=render :partial => "user_messages/messages", :locals=>{
+              :user_messages => @user_messages}%>  
+                          
+              </div>
+            </div>
+         </div>
+         <% end %>
+       </div>
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+<!-- /.conversation-section -->
+

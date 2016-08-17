@@ -1,0 +1,74 @@
+<div class="profile profile-info-page">
+	<div class="container">
+		<div class="col-md-8 profile_left">
+			<div class="lsidebar span_1_of_profile profile-photo">
+			  <div class="grid_4">
+			  	<div class="profile-likes">
+					<a href="javascript:;" onclick="fnLikeProfile(<%=params[:id]%>)"><i class="heart" title="Like"></i><small id="profileLikes" title="No. of likes"><%=@profile_likes%></small></a>
+					
+				</div>
+			  	<ul class="bxslider">
+			  		<%if @user.attachments.length==0%>
+			  			<li>
+						  	<%=image_tag(@user.image_path, :class=>"img-responsive", :alt=>"")%>
+						</li>
+			  		<%else%>
+					  	<%@user.attachments.each do |attachment|%>
+						  <li>
+						  	<%=image_tag(attachment.try(:attachment), :class=>"img-responsive", :alt=>"")%>
+						  </li>
+						<%end%>
+					<%end%>
+				</ul>
+			  	<ul id="divFriendshipStatus" class="profile-photo-caption category_desc1">
+					<%= render :partial => "friend_request_status"%>
+				</ul>
+			   </div><br/><br/>			   
+			</div>
+
+			<div class="cont span_2_of_profile">
+				<h4><a href="javascript:;"><%=@user.full_name(@is_friend.try(:is_accepted))%>,</a>&nbsp;<%=@user.team_name%></h4>
+				<table class="profile-fields">
+					<tbody>
+						<tr>
+							<th>Gender</th>
+							<td><%=@user.gender.name || "-"%></td>
+						</tr>
+						<%if @is_friend.try(:is_accepted) || @user.user_setting.age_with_public%>
+							<tr>
+								<th>Age</th>
+								<td><%=@user.age || "-"%></td>
+							</tr>
+						<%end%>
+						<%if @is_friend.try(:is_accepted) && @user.user_setting.height_with_friends && @user.try(:height_feet) && @user.try(:height_inch)%>
+							<tr>
+								<th>Height</th>
+								<td><%=@user.height_feet%>.<%=@user.height_inch%>'</td>
+							</tr>
+						<%end%>
+						<tr>
+							<th>City</th>
+							<td><%=@user.city || "-"%></td>
+						</tr>
+						<tr>
+							<th>State</th>
+							<td><%=@user.state.try(:name) || "-"%></td>
+						</tr>			
+						<tr>
+							<th>Country</th>
+							<td><%=@user.country || "-"%></td>
+						</tr>
+						<tr>
+							<th>Hobbies</th>
+							<td><%=@user.hobbies || "-"%></td>
+						</tr>		
+					</tbody>
+				</table>
+				<br/><br/>About me
+	        	<p><%=@user.about_me%></p>
+		    </div>
+			<div class="clearfix"></div>	
+		</div>
+		<%= render :partial => "landing/accepted_friends", :locals =>{:accepted_friends => @user_friends, :custom_class1 => "col-md-12", :custom_class => "col-md-4", :check_current_profile_id => params[:id], :dont_check_if_friend => params[:id].to_i==current_user.id, :my_friends_id=>@my_friends_id, :index_page=>false} %>
+	</div>
+</div>

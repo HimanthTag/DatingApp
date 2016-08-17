@@ -1,0 +1,67 @@
+
+<%if @sent_requests.length>0%>
+	<div class="col-md-4">
+		<div class="border-title">
+		    <h4>Sent Requests</h4>
+		</div>
+		<div class="request_right request_scroll">
+			<% @sent_requests.each_with_index do |request,counter| %>
+				<%target_user = request.friend%>
+				<% unless target_user.nil?%>
+				<div class="single_request" id="div_request_<%=request.id%>">
+			        <div class="requests-image inprogress">
+			            <%=image_tag(target_user.image_path, :class=>"img-responsive", :alt=>"")%>
+			        </div>
+			        <div class="req-name">
+			            <a href="<%=view_user_path(target_user)%>"><h4><%=target_user.full_name%></h4></a>
+			            <!-- <a href="#">
+			                <p><i>5 mutual friends</i>
+			                </p>
+			            </a> -->
+			        </div>
+			        <div class="request-icons">
+			        	<%unless target_user.relationship_interest.nil?%>						
+							<a href="javascript:;" style="cursor:default">						
+								<%=image_tag(target_user.relationship_interest_icon, :title=>target_user.relationship_interest.name)%>
+							</a>						
+						<%end%>
+						<%unless target_user.group.nil?%>						
+							<a href="javascript:;" style="cursor:default">						
+								<%=image_tag(target_user.team_icon, :title=>target_user.team_name)%>
+							</a>
+						<%end%>
+			        </div>
+			        <div class="request-status">
+			            <a href="javascript:;" title="Cancel Request" onclick="fnCancelFriendRequest(<%=request.id%>)">
+			                <div class="red-circle"></div>
+			            </a>
+			        </div>
+			    </div>
+			    <%end%>
+			<%end%>		    
+		</div>
+	</div>
+<%end%>
+<script>
+function fnCancelFriendRequest(request_id){  
+	if(confirm("Are you sure to cancel request?")){
+	  var ajax_data = {
+	    "request_id": request_id
+	  };
+	  $.ajax({
+	    url: "<%= remove_sent_request_path %>",
+	    format: "json",
+	    data: ajax_data,
+	    success: function(response){
+	    	if(response.status=="true"){
+	    		$("#div_request_"+request_id).remove();      
+	    	}      		
+	      	else
+	      	{
+	      		alert("Issue removing request, try again later");
+	      	}
+	    }
+	  });
+	}
+}
+</script>

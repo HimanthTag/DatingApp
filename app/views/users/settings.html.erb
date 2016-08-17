@@ -1,0 +1,36 @@
+<div class="profile_banner">
+	<div class="container"> 
+	   <h3>PRIVACY SETTINGS</h3>
+	</div>
+</div>
+<div class='profiles'>
+  <div class="container">
+	<div class="register">
+	   	<div class="register-but">
+	   		<%= form_for(@user_setting, url: update_settings_path, :method=>:post) do |f| %>
+		  	<div class="input-group" style="width: 60%;margin-left:20%">
+			    <input type="text" class="form-control" disabled style="cursor:default" placeholder="Last Name"/>
+			    <span class="input-group-addon"><%=f.check_box :last_name_with_public%>&nbsp;&nbsp;Share With Public</span>
+			    <span class="input-group-addon"><%=f.check_box :last_name_with_friends%>&nbsp;&nbsp;Share With Friends</span>
+			</div><br/>
+			<div class="input-group" style="width: 60%;margin-left:20%">
+			    <input type="text" class="form-control" disabled style="cursor:default" placeholder="My age"/>
+			    <span class="input-group-addon"><%=f.check_box :age_with_public%>&nbsp;&nbsp;Share With Public&nbsp;&nbsp;</span>
+			</div><br/>
+			<div class="input-group" style="width: 60%;margin-left:20%">
+			    <input type="text" class="form-control" disabled style="cursor:default" placeholder="My Height"/>
+			    <span class="input-group-addon"><%=f.check_box :height_with_friends%>&nbsp;&nbsp;Share With Friends</span>
+			</div><br/>
+			<div class="input-group" style="width: 60%;margin-left:20%">
+			    <input type="text" class="form-control" disabled style="cursor:default" placeholder="My Body Type"/>
+			    <span class="input-group-addon"><%=f.check_box :body_type_with_friends%>
+			    	 &nbsp;&nbsp;Share With Friends</span>
+			</div><br/>
+			<div style="text-align:center">
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
+			<%end%>
+		</div>
+	</div>	
+  </div>
+</div>

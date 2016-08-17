@@ -1,0 +1,27 @@
+<h1>Listing profile_likes</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Liker</th>
+    <th>Is deleted</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @profile_likes.each do |profile_like| %>
+  <tr>
+    <td><%= profile_like.user_id %></td>
+    <td><%= profile_like.liker_id %></td>
+    <td><%= profile_like.is_deleted %></td>
+    <td><%= link_to 'Show', profile_like %></td>
+    <td><%= link_to 'Edit', edit_profile_like_path(profile_like) %></td>
+    <td><%= link_to 'Destroy', profile_like, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Profile like', new_profile_like_path %>

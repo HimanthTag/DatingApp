@@ -1,0 +1,32 @@
+<div class="content_top">
+  <div class="container">
+	<% page_header "Your Conversations" %>
+	<div class="row">
+	  <div class="col-sm-3">
+	    <ul class="nav nav-pills nav-stacked">
+	      <%= link_to 'Compose', new_message_path, class: 'btn btn-primary' %>
+	      <br/>
+	      <br/>
+	      <%= mailbox_section 'inbox'+"(#{current_user.unread_inbox_count})", @box, class: @box == "inbox" ? "active" : "" %>
+	      <%= mailbox_section 'sent', @box %>
+	      <%= mailbox_section 'trash', @box %>
+	    </ul>
+	  </div>
+
+	  <div class="col-sm-9">
+		   <% if @box == 'trash' %>
+		    <p><%= link_to 'Empty trash', empty_trash_conversations_path, class: 'btn btn-danger', method: :delete,
+		                   data: {confirm: 'Are you sure?'} %></p>
+		  <% end %>
+		  <ul class="list-group">
+		    <%= render partial: 'conversations/conversation', collection: @conversations %>
+		    <br/>
+		    <%= "No message found!" if @conversations.length == 0%>
+		     <br/>
+		  </ul>
+
+	    <%= will_paginate %>
+	  </div>
+	</div>
+ </div>
+</div>

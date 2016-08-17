@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Status:</b>
+  <%= @relationship.status %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @relationship.description %>
+</p>
+
+<p>
+  <b>Is deleted:</b>
+  <%= @relationship.is_deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_relationship_path(@relationship) %> |
+<%= link_to 'Back', relationships_path %>

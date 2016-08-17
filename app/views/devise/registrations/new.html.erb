@@ -1,0 +1,89 @@
+<header>
+	<div class="logo">
+   		<img src="../assets/logo-login.png" alt="pokemon-logo">
+	</div>
+</header>
+
+<div class="row">
+    <div class="col-md-4 col-sm-6 welcome-text">
+    	<div class="welcomeLogin">
+    		<h2 class="section-title">Be on the Go!</h2>
+    		<p>
+    			Find your Perfect match  <br>
+    			or  <br>
+    			Just make some new friends
+    		</p>
+    		<br>
+    		<img src="../assets/pokemon.png">            		
+    		<p><a href="javascript:;" onclick="$('#howWorks').modal('show');">How it works</a> <img src="../assets/info.png"></p>
+    	</div>
+    </div>
+    <div class="col-md-4 col-sm-6">	            	
+       	<div class="login-warp reg-wrap">
+			<div class="login-warp-data">
+			<span class="login-ball"><img src="../assets/login-top-ball.png"></span>
+			<h4 class="modal-title" id="registerModalLabel">Register</h4>
+			<%= form_for(resource, as: resource_name, url: registration_path(resource_name),:html => {:id => "registerForm"}) do |f| %> 
+				<div class="form-group label-floating">
+			       <div class="icon-addon addon-md">
+			       		<label for="firstName" class="control-label">First Name*</label>
+				        <%= f.text_field :first_name, class: 'form-control',:id => "firstName", :required=> "true" %>
+			       </div>
+			    </div>
+			    <div class="form-group label-floating">
+			       <div class="icon-addon addon-md">
+			       		<label for="lastName" class="control-label">Last Name*</label>
+				        <%= f.text_field :last_name, class: 'form-control',:id => "lastName", :required=> "true" %>
+			       </div>
+			    </div>
+			    <div class="form-group label-floating">
+			       <div class="icon-addon addon-md">
+			       		<label for="email" class="control-label">Email address*</label>
+			          	<%= f.email_field :email, :class=>"form-control", :id => "email", :required => true%>
+			       </div>
+			    </div>
+			    <div class="form-group label-floating">
+			       	<div class="icon-addon addon-md">
+			       		<label for="pwd" class="control-label">Password*</label>
+			    		<%= f.password_field :password, autocomplete: "off", :class=>"form-control", :id => "pwd", :minLength => 8, :required => true %>
+			       </div>
+			    </div>
+			    <div class="form-group label-floating">
+			       	<div class="icon-addon addon-md">
+			       		<label for="cpassword" class="control-label">Confirm Password* </label>
+				    	<%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', :required=> "true", :equalTo =>"#pwd", :id=>"cpassword"%>
+			       </div>
+			    </div>
+			    <div class="form-group label-floating">	
+				    	<div class="settings-list">					       	
+				       		<div class="togglebutton">
+                            <span style="font-size:13px;">I am over 18 years</span>
+                            <label>
+                            	<input checked="checked" id="s1" name="s1" type="checkbox" value="1", required="true", readonly="true">
+                            	<%#= f.check_box :is_deleted, :id => "s1",  :value => "1"%>
+                            </label>
+                        </div>
+                        </div>
+				    </div>	
+			     <%= f.submit "SIGNUP", :class=>"btn btn btn-raised btn-login btn-theme1" %>
+			<% end %>
+
+			</div>
+      		<a class="btn btn-lg facebook-login-btn" href="javascript:;" onclick="checkLoginState()">Signup using facebook</a>
+          	<p class="register-text text-right">Already a member? 
+          		<%= link_to "Signin", new_user_session_path%>
+          	</p>
+       	</div>
+    </div>
+    <div class="col-md-4 col-sm-6 hidden-sm hidden-xs">
+    	<div class="allianceSection">
+       		<img src="../assets/alliance.png">
+    	</div>
+    </div>
+</div>
+<%= render :partial => "landing/how_works_pop"%>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#registerForm").validate();
+})
+</script>

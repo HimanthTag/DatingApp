@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<%if user_signed_in?%>
+	<html>
+<%else%>	
+	<html class="login-page">
+<%end%>
+<head>
+  <title>PokemonGo Mi</title>
+  <link rel="icon" href="assets/favicon.ico">
+<!-- Custom Theme files -->
+<meta content='<%= user_signed_in? ? current_user.id : "" %>' name='user-id'/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<%= stylesheet_link_tag    "application" %>
+<%= stylesheet_link_tag    "bootstrap" %>
+<%= stylesheet_link_tag    "bootstrap-material-design" %>
+<%= stylesheet_link_tag    "ripples.min" %>
+<%= stylesheet_link_tag    "animate" %>
+<%= stylesheet_link_tag    "flexslider" %>
+<%= stylesheet_link_tag    "jquery-ui" %>
+<%= stylesheet_link_tag    "jquery-ui.structure.min" %>
+<%= stylesheet_link_tag    "owl.carousel" %>
+<%= stylesheet_link_tag    "jquery.dropdown" %>
+<%= stylesheet_link_tag    "style" %>
+<%= stylesheet_link_tag '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css' %>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+  <%= javascript_include_tag "application","jquery.min.js"%>
+
+<!--webfont-->
+<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+<!--Animation-->
+
+  
+  <%= csrf_meta_tags %>
+</head>
+<script>
+	new WOW().init();
+</script>
+<body>
+<script>
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+	FB.login(function(response) {
+	    if (response.authResponse) {
+	      //After Login in
+	     //console.log('Welcome!  Fetching your information.... ');
+	     return window.location = "<%= AppConfig.facebook['callback_url'] %>"
+	    } else {
+	     console.log('User cancelled login or did not fully authorize.');
+	    }
+	}, {scope: 'email,user_likes'});
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : "<%= AppConfig.facebook['api_key'] %>",
+    cookie     : true,  // enable cookies to allow the server to access 
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.7' // use graph api version 2.5
+  });
+
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus().  This function gets the state of the
+  // person visiting this page and can return one of three states to
+  // the callback you provide.  They can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not.
+  //
+  // These three cases are handled in the callback function.
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+	<p class="alert alert-success ajax animated fadeInDown" style="display:none;"></p>
+	<% if notice %>
+		<p class="alert alert-success animated fadeInDown"><%= notice %></p>
+	<% elsif alert %>
+		<% if alert != ""%>
+			<p class="alert alert-danger animated fadeInDown"><%= alert %></p>
+		<%end%>
+	<% end %>
+	<%if user_signed_in?%>
+
+		<div class="header">
+			<div class='container'>
+				<div class="header_left">
+					<a href="<%=root_path%>">
+						<%=image_tag("/assets/logo-pokemon.png")%>
+					</a>
+				</div>	
+
+				<div class="header_right">
+					<div class="dropdown">
+						<button class="btn-transparent dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<%#=link_to (current_user.first_name), view_user_path(current_user.id)%>
+						<span><%=current_user.first_name%></span>
+						<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li><%=link_to 'My Profile', view_user_path(current_user), :class=>"menu-icon icon-profile"%></li>
+							<li><%=link_to 'Edit Profile', edit_user_path(current_user), :class=>"menu-icon icon-edit"%></li>
+							<!-- <li><%#=link_to 'Settings', settings_path%></li> -->
+                            <li><a class="menu-icon icon-settings" href="javascript:;" onclick="$('#settingsList').modal('show');">Settings</a></li>
+                            <%unless current_user.provider=="facebook"%>
+								<li><%=link_to 'Change Password', edit_user_registration_path, :class=>"menu-icon icon-password"%>
+								</li>
+							<%end%>
+							<li role="separator" class="divider"></li>
+							<li><li class="user_desc sign-out">
+								<%= link_to "Sign out", destroy_user_session_path, :method => :delete, :class=>"menu-icon icon-logout" %>
+
+							</li>
+							
+						</ul>
+					</div>
+				</div>
+				<%= render :partial => "layouts/header_icons"%>				
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<%= yield %>
+		<%= render :partial => "layouts/footer"%>
+		<%= render :partial => "layouts/active_user_js"%>
+	<%else%>
+		<div class="container-fluid login-top">
+			<%= yield %>
+			<%= render :partial => "layouts/footer"%>
+			<script type="text/javascript">
+				var timer = $(".alert").html() && $(".alert").html().length > 100 ? 7000 : 3000;
+				setTimeout(function(){			
+					$(".alert").toggleClass("fadeOutUp");
+				},timer);
+			</script>
+		</div>
+	<%end%>
+    <% if user_signed_in? %>
+        <%= render :partial => "users/settings_pop"%>
+    <% end %>
+	<%= javascript_include_tag   "bootstrap.min.js", "material.min.js", "ripples.min.js","jquery.dropdown.js", "jquery.nicescroll.min.js", "moment.min.js", "jquery-ui.min.js", "jquery.validate.js", "owl.carousel.min.js", "custom.js" %>
+
+</html>
+

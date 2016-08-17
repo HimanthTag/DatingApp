@@ -1,0 +1,83 @@
+<div class="profile_banner">
+  <div class="container"> 
+     <h3>Looking for someone</h3>
+  </div>
+</div>
+
+  <div class="container">      
+    <div class="search wow">
+      <div class="register">
+      <div class="register-but">
+          <%= search_form_for @q, url: users_list_path,
+                        html: { method: :get } do |f| %>
+         <div class="register-top-grid">
+          <!-- <h3>LOOKING FOR SOMEONE</h3><br/> -->
+          <div class="row">
+            <div class="form-group col-md-4"><!-- <span>Gender</span> -->
+              <%= f.select :gender_id_eq, options_for_select( Gender.order(:name).map{ |c| [c.name, c.id] }, params[:q].present? && params[:q]["gender_id_eq"] ? params[:q]["gender_id_eq"] : []), {:include_blank => 'Any Gender'}, { :class => 'form-control'} %>
+            </div>
+            <div class="form-group col-md-2"><!-- <span>Age From</span> -->
+            <%= f.number_field :age_gteq, class: 'form-control', :placeholder=>"Age From", min: 1, oninput: "validity.valid||(value='');"%></div>
+            <div class="form-group col-md-2"><!-- <span>Age To</span>  -->             
+             <%= f.number_field :age_lteq, class: 'form-control', :placeholder=>"Age To", min: 1, oninput: "validity.valid||(value='');"%> </div>
+             <div class="form-group col-md-4"><!-- <span>Seeking</span> -->
+              <%= f.select :relationship_interest_id_eq, options_for_select( RelationshipInterest.all.map{ |c| [c.name, c.id] }, params[:q].present? && params[:q]["relationship_interest_id_eq"] ? params[:q]["relationship_interest_id_eq"] : []), {:include_blank => 'I am Seeking'}, { :class => 'form-control'}  %>
+            </div>            
+            <div class="form-group col-md-4"><!-- <span>City</span> -->
+             <%= f.search_field :city_cont, class: 'form-control', :placeholder=>"City" %> </div>
+             <div class="form-group col-md-4"><!-- <span>State</span> -->
+              <%= f.select :state_id_eq, options_for_select( State.order(:name).map{ |c| [c.name, c.id] }, params[:q].present? && params[:q]["state_id_eq"] ? params[:q]["state_id_eq"] : []), {:include_blank => 'Any State'}, { :class => 'form-control'}  %>
+            </div>
+            <div class="form-group col-md-4"><!-- <span>Zip Code</span> -->
+             <%= f.search_field :zip_code_eq, class: 'form-control', :placeholder=>"Zip Code" %> </div>
+            <div class="form-group col-md-12" style="margin-top:20px;"><%= f.submit "Search" %></div>
+          </div>  
+        </div>
+        <%end%>
+      </div>
+    </div>
+      </div>
+   </div>
+
+<script>
+  function fnSearch(){
+    //$.post('http://example.com/upload', function() {
+      if($("#txtSearch").val().trim()!=""){
+        window.location.href =  "<%=users_list_path%>" + "?first_name="+$("#txtSearch").val();
+      }
+        
+
+    //});
+  }
+
+
+  // $(document).ready(function() {
+  //   var availableTags = [
+  //     "ActionScript",
+  //     "AppleScript",
+  //     "Asp",
+  //     "BASIC",
+  //     "C",
+  //     "C++",
+  //     "Clojure",
+  //     "COBOL",
+  //     "ColdFusion",
+  //     "Erlang",
+  //     "Fortran",
+  //     "Groovy",
+  //     "Haskell",
+  //     "Java",
+  //     "JavaScript",
+  //     "Lisp",
+  //     "Perl",
+  //     "PHP",
+  //     "Python",
+  //     "Ruby",
+  //     "Scala",
+  //     "Scheme"
+  //   ];
+  //   $( "#txtSearch" ).autocomplete({
+  //     source: availableTags
+  //   });
+  // } );
+  </script>

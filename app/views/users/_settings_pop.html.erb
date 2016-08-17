@@ -1,0 +1,74 @@
+<!-- Settings Modal -->
+    <div class="modal fade" id="settingsList" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><%=image_tag("/assets/popupclose.png", :title=>"Popup Close")%></span>
+                    </button>
+                    <h4 class="modal-title">Settings</h4>
+                </div>
+                <%= form_for(current_user.user_setting, url: update_settings_path, :method=>:post, :remote => true) do |f| %>
+                <div class="modal-body">
+                    <div class="settings-list">
+                        <div class="togglebutton">
+                            <span>Share last name with public</span>
+                            <label>
+                                <%=f.check_box :last_name_with_public%>
+                            </label>
+                        </div>  
+                        <div class="togglebutton">
+                            <span>Share last name with friends</span>
+                            <label>
+                                <%=f.check_box :last_name_with_friends%>
+                            </label>
+                        </div>
+                        <div class="togglebutton">
+                            <span>Share my age with public</span>
+                            <label>
+                                <%=f.check_box :age_with_public%>
+                            </label>
+                        </div>
+                        <div class="togglebutton">
+                            <span>Share my height with friends</span>
+                            <label>
+                                <%=f.check_box :height_with_friends%>
+                            </label>
+                        </div>
+                        <!-- <div class="togglebutton">
+                            <span>Share my body type with friends</span>
+                            <label>
+                                <%=f.check_box :body_type_with_friends%>
+                            </label>
+                        </div> -->
+                    </div>
+                    <!-- /.settings-list -->
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-dismiss="modal" aria-label="Close" class="btn btn-radius btn btn-raised btn-post btn-theme1" id="update_setting">Save</button>
+                </div>
+                <%end%>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <script type="text/javascript">
+        $("#update_setting").on("click", function(e) {
+            e.preventDefault();
+            $.ajax({
+              url: $('.edit_user_setting').attr('action'),
+              data: $('.edit_user_setting').serialize(),
+              type: "POST",
+              dataType: "json",
+              success: function(response) {                
+                $(".alert-success.ajax").html(response.message).show();
+                setTimeout(function(){          
+                    $(".alert-success.ajax").toggleClass("fadeOutUp");
+                },3000);
+              },
+              error: function(xhr, textStatus, errorThrown) {
+
+              }
+            });
+        });
+    </script>

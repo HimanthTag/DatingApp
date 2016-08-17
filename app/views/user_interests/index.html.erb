@@ -1,0 +1,27 @@
+<h1>Listing user_interests</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Interest</th>
+    <th>Is deleted</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @user_interests.each do |user_interest| %>
+  <tr>
+    <td><%= user_interest.user_id %></td>
+    <td><%= user_interest.interest_id %></td>
+    <td><%= user_interest.is_deleted %></td>
+    <td><%= link_to 'Show', user_interest %></td>
+    <td><%= link_to 'Edit', edit_user_interest_path(user_interest) %></td>
+    <td><%= link_to 'Destroy', user_interest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User interest', new_user_interest_path %>

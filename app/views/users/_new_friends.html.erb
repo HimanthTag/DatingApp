@@ -1,0 +1,25 @@
+<% @users.each_with_index do |user,counter| %>
+    <div class="col-md-4 col-sm-6 col-xs-6" id="users">
+        <div class="friends-listing-box">
+            <div class="col-md-4 col-sm-4 col-xs-4 p_z">
+                <a class="profile-image" title="Profile Image" href="javascript:;">
+                    <%=image_tag(user.image_path, :class=>"img-responsive", :alt=>"")%>
+                </a>
+            </div>
+            <div class="col-md-8 col-sm-8 col-xs-8 p_z">
+                <div class="friends-details">
+                    <h3>
+                        <a data-toggle="tooltip" data-placement="top" href="<%=view_user_path(user)%>"><%=user.full_name(false)%></a>
+					</h3>							
+                    <a href="javascript:;"><%=user.user_friends.length%> friends</a>
+                    <a href="javascript:;">
+                        <button class="btn btn-sendRequest btn-raised btnRequest_<%=user.id%>" onclick="fnSendFriendRequest(<%=user.id%>)"><i class="icon"><%=image_tag("/assets/icon_addFriend.png")%></i>Send Request</button>
+                        <button class="btn btn-requestSent btn-raised btnRequest_<%=user.id%>" style="display:none;"><i class="icon"><%=image_tag("/assets/icon_reqestSend.png")%></i>Request Sent</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<%end%>
+
+

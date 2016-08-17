@@ -1,0 +1,104 @@
+<div class="page-title">
+  <div class="container"> 
+    <div class="row">
+      <div class="col-md-12">
+          <h2><%= profile_heading(params[:id])%></h2>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render :partial => "new_profile_template" %>
+
+
+
+<script>
+function fnSendFriendRequest(friend_id){   
+  var ajax_data = {
+    "friend_id":friend_id
+  };
+  $.ajax({
+    url: "<%= add_friend_path %>",
+    format: "json",
+    data: ajax_data,
+    success: function(response){  
+      // $("#divUsersList").html(response);
+      $("#divFriendshipStatus").html(response);
+    }
+  });
+}
+function fnUpdateFriendRequestStatus(friend_request_id,acceptance_status){
+  var ajax_data = {
+    "id":friend_request_id,
+    "acceptance_status":acceptance_status
+  };
+  $.ajax({
+    url: "<%= accept_new_friend_path %>",
+    format: "json",
+    data: ajax_data,
+    success: function(response){
+      $("#divFriendshipStatus").html(response);
+    }
+  });
+}
+
+
+function fnLikeProfile(profile_id){
+	if(profile_id==null || <%=params[:id]%>==<%=current_user.id%>)
+		return
+  var ajax_data = {
+    "user_id":profile_id,
+    "liker_id":<%=current_user.id%>
+  };
+  $.ajax({
+    url: "<%= like_profile_path %>",
+    format: "text",
+    data: ajax_data,
+    success: function(response){
+      $("#profileLikes").html(response).show();
+    }
+  });
+}
+
+
+function fnPokeWithMsg(profile_id){
+	if(profile_id==null || <%=params[:id]%>==<%=current_user.id%>)
+		return
+  window.location.href="<%=users_list_path%>";
+}
+
+
+function fnUnfriend(friend_id){
+  if(confirm("Are you sure to remove?")){
+    var ajax_data = {
+      "friend_id":friend_id
+    };
+    $.ajax({
+      url: "<%= remove_friend_path %>",
+      format: "json",
+      data: ajax_data,
+      success: function(response){      
+        $("#divFriendshipStatus").html(response);
+      }
+    });
+  }
+}
+
+
+$(document).ready(function(){
+	<%if @profile_likes==0%>
+		$("#profileLikes").hide();
+	<%end%>
+})
+</script>
+<style>
+li.accept{
+	color: #668014 !important;
+}
+li.reject{
+	color: #EE2C2C !important;
+}
+#profileLikes{
+	color: #fff;
+	margin-top: -5px;
+}
+</style>

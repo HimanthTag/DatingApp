@@ -1,0 +1,29 @@
+<%= form_for(@profile_like) do |f| %>
+  <% if @profile_like.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@profile_like.errors.count, "error") %> prohibited this profile_like from being saved:</h2>
+
+      <ul>
+      <% @profile_like.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :liker_id %><br />
+    <%= f.number_field :liker_id %>
+  </div>
+  <div class="field">
+    <%= f.label :is_deleted %><br />
+    <%= f.check_box :is_deleted %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

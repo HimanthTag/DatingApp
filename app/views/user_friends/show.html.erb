@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @user_friend.user_id %>
+</p>
+
+<p>
+  <b>Friend:</b>
+  <%= @user_friend.friend_id %>
+</p>
+
+<p>
+  <b>Is accepted:</b>
+  <%= @user_friend.is_accepted %>
+</p>
+
+<p>
+  <b>Request message:</b>
+  <%= @user_friend.request_message %>
+</p>
+
+<p>
+  <b>Is deleted:</b>
+  <%= @user_friend.is_deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_friend_path(@user_friend) %> |
+<%= link_to 'Back', user_friends_path %>

@@ -1,0 +1,74 @@
+<header>
+	<div class="logo">
+   		<img src="../assets/logo-login.png" alt="pokemon-logo">
+	</div>
+</header>
+
+<div class="row">
+    <div class="col-md-4 col-sm-6 welcome-text">
+    	<div class="welcomeLogin">
+    		<h2 class="section-title">Be on the Go!</h2>
+    		<p>
+    			Find Your Perfect Match  <br>
+    			Or  <br>
+    			Just Make Some New Friends
+    		</p>
+    		<br>
+    		<img src="../assets/pokemon.png">            		
+    		<p><a href="javascript:;" onclick="$('#howWorks').modal('show');">How it works <img src="../assets/info.png"></a></p>
+    	</div>
+    </div>
+    <div class="col-md-4 col-sm-6">	            	
+       	<div class="login-warp">
+			<div class="login-warp-data">
+			<span class="login-ball"><img src="../assets/login-top-ball.png"></span>
+			 <%= form_for(resource, as: resource_name, url: session_path(resource_name),html: {id: "loginForm" }) do |f| %>
+			    <div class="form-group label-floating">
+			       <div class="icon-addon addon-md">
+			       		<label for="email" class="control-label">Email Address</label>
+			          	<%= f.email_field :email, :class=>"form-control", :id => "email", :required => true%>
+			          	<label for="email" class="glyphicon glyphicon-mail" rel="tooltip" title="email"></label>
+			       </div>
+			    </div>
+			    <div class="form-group label-floating">
+			       	<div class="icon-addon addon-md">
+			       		<label for="pwd" class="control-label">Password</label>
+			    		<%= f.password_field :password, autocomplete: "off", :class=>"form-control", :id => "pwd", :required => true %>
+			         	<label for="email" class="glyphicon glyphicon-pwd" rel="tooltip" title="email"></label>
+			       </div>
+			    </div>
+			    <div class="forget-form-froup">
+			       <a href="#" data-toggle="modal" onclick="$('#forgotPasswordModal').modal('show');">Forgot Password?</a>
+			    </div>
+			     <%= f.submit "LOGIN", :class=>"btn btn btn-raised btn-login btn-theme1" %>
+			<% end %>
+
+			</div>
+      		<a class="btn btn-lg facebook-login-btn" href="javascript:;" onclick="checkLoginState()">Login using facebook</a>
+      		<!-- <fb:login-button size="large" clas="btn btn-lg facebook-login-btn" scope="public_profile,email" onlogin="checkLoginState();">
+					  Login with Facebook
+			</fb:login-button> -->
+
+          	<p class="register-text text-right">Not a member yet? 
+          		<a href="#" data-toggle="modal"  onclick="$('#registerModal').modal('show');">Register</a> 
+          	</p>
+       	</div>
+    </div>
+    <div class="col-md-4 col-sm-6 hidden-sm hidden-xs">
+    	<div class="allianceSection">
+       		<img src="../assets/alliance.png">
+    	</div>
+    </div>
+</div>
+<%=render :partial => "devise/registrations/register_template"%>
+<%=render :partial => "devise/passwords/forgot_password_template"%>	
+
+
+<script type="text/javascript">
+  $('document').ready(function(){
+    $("#loginForm").validate();
+    if ($('#pwd').val() != ''){
+      $('#pwd').parent().parent().removeClass('is-empty');
+    }
+  });
+</script>
